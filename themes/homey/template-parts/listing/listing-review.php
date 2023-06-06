@@ -22,6 +22,7 @@ if($total_review > 1) {
 } else {
 	$review_label = $homey_local['rating_review_label'];
 }
+
 ?>
 <div id="reviews-section" class="reviews-section">
 	<ul id="homey_reviews" class="list-unstyled">

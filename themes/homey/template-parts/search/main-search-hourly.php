@@ -105,7 +105,7 @@ $end_hour = strtotime('24:00');
                             		<input type="hidden" name="lng" value="<?php echo esc_attr($lng); ?>">
 
 		                            <button type="reset" class="btn clear-input-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
-
+									<div id="result_s"></div>
 		                            <?php } elseif($location_field == 'keyword') { ?>
 
 		                            	<label class="animated-label"><?php echo esc_attr(homey_option('srh_whr_to_go')); ?></label>

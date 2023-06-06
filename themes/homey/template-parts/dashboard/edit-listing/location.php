@@ -35,13 +35,14 @@ if(isset($_GET['tab']) && $_GET['tab'] == 'location') {
                 <div class="form-group">
                     <label for="listing_address"><?php echo esc_html__('District','homey'); //esc_attr(homey_option('ad_address')).homey_req('listing_address'); ?></label>
                     <input type="text" autocomplete="false" name="listing_address" <?php homey_required('listing_address'); ?> class="form-control" value="<?php homey_field_meta('listing_address'); ?>" id="listing_address" placeholder="<?php echo esc_attr(homey_option('ad_address_placeholder')); ?>">
+                    <div id="result"></div>
                 </div>
             </div>
             <?php } ?>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="provience"> <?php echo esc_html__('Provience','homey').homey_req('aptSuit'); ?> </label>
-                    <input type="text" autocomplete="false" name="provience" <?php homey_required('aptSuit'); ?> class="form-control" value="<?php echo $provience ?>" id="aptSuit" placeholder="<?php echo esc_html__('Add Provience','homey'); ?>">
+                    <input type="text" autocomplete="false" name="provience" <?php homey_required('aptSuit'); ?> class="form-control" value="<?php echo $provience ?>" id="provience" placeholder="<?php echo esc_html__('Add Provience','homey'); ?>">
                 </div>
             </div>
             <?php if($hide_fields['aptSuit'] != 1) { ?>

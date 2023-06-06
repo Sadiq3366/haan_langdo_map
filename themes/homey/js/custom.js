@@ -95,7 +95,7 @@
     }
     console.log(homey_is_android);
 
-
+    
 
     var only_nav_sticky = homey_nav_sticky.data('sticky');
     var only_search_sticky = homey_main_search.data('sticky');
@@ -129,6 +129,7 @@
     $('.user-mobile-nav').on('click', function(){
         $('#mobile-nav').removeClass('in');
     });
+   
 
     /* ------------------------------------------------------------------------ */
     /*  Match Height

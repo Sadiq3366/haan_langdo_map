@@ -1625,7 +1625,7 @@ if( !function_exists('homey_calculate_booking_cost_ajax') ) {
         $check_in_date  = wp_kses ( $_POST['check_in_date'], $allowded_html );
         $check_out_date = wp_kses ( $_POST['check_out_date'], $allowded_html );
         $extra_options = isset($_POST['extra_options']) ? $_POST['extra_options'] : '';
-        $guests         = intval($_POST['guests']);
+        $guests         = intval($_POST['guests']) > 0 ? intval($_POST['guests']) : 1;
 
         $booking_type = homey_booking_type_by_id($listing_id);
 

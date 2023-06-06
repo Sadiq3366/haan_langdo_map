@@ -17,6 +17,9 @@ if( !function_exists('homey_scripts') ) {
         $login_redirect = homey_after_login_redirect_page();
 
         $map_api_key = homey_option('map_api_key');
+
+        $longdo_map_api_key = homey_option('longdo_map_api_key');
+
         $menu_sticky = homey_option('menu-sticky');
         $search_position = homey_option('search_position');
         $geo_country_limit = homey_option('geo_country_limit');
@@ -362,13 +365,16 @@ if( !function_exists('homey_scripts') ) {
                 wp_enqueue_script('richmarker-compiled', get_template_directory_uri() . '/js/richmarker-compiled.js', array(), '1.0.0', true);
             }
             wp_enqueue_script('infobox-packed', get_template_directory_uri() . '/js/infobox_packed.js', array('jquery'), '1.1.19', false);
-            wp_enqueue_script('homey-maps', get_template_directory_uri() . '/js/homey-maps'.$js_minify_prefix.'.js', array('jquery'), HOMEY_THEME_VERSION, true);
+            //wp_enqueue_script('homey-maps', get_template_directory_uri() . '/js/homey-maps'.$js_minify_prefix.'.js', array('jquery'), HOMEY_THEME_VERSION, true);
             wp_enqueue_script('markerclusterer-min', get_template_directory_uri() . '/js/markerclusterer.min.js', array('jquery'), '2.1.1', true);
 
         } else {
+
+            wp_enqueue_script('longdo-map', 'https://api.longdo.com/map/?key='.$longdo_map_api_key.'', array('jquery'), '1.0', false);
+
             // Enqueue leaflet CSS
             wp_enqueue_style( 'leaflet', 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css', array(), '1.7.1' );
-
+           
             // Enqueue leaflet JS
             wp_enqueue_script( 'leaflet', 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js', array(), '1.7.1', true );
 
@@ -381,6 +387,10 @@ if( !function_exists('homey_scripts') ) {
             wp_enqueue_script( 'jquery-ui-autocomplete' );
 
             wp_enqueue_script('homey-maps', get_template_directory_uri() . '/js/homey-open-street-maps'.$js_minify_prefix.'.js', array('jquery'), HOMEY_THEME_VERSION, true);
+
+            //wp_enqueue_script('homey-longdo-maps', get_template_directory_uri() . '/js/homey-longdo-maps.js', array('jquery'), HOMEY_THEME_VERSION, true);
+
+            
         }
 
 

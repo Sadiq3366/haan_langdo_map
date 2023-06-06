@@ -102,9 +102,9 @@ if( !homey_give_access($reservationID) ) {
 } else {
     if( strlen($reservationID) > 4 )
     {
-        $code='PK';
-    }else{
         $code='PK0';
+    }else{
+        $code='PK00';
     }
 ?>
 <div class="user-dashboard-right dashboard-with-sidebar">

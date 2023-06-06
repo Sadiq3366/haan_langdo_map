@@ -78,7 +78,7 @@
         } else {
             var infobox_top = -70;
         }
-
+        
         // Info box
         var infobox = new InfoBox({
             maxWidth: 300,

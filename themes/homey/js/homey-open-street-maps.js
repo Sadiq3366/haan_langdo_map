@@ -799,6 +799,25 @@
 
 
         // Single listing map
+        // if($('#homey-single-map').length > 0 ) {
+        //     var mapDiv = $('#homey-single-map');
+        //     var zoomlevel = mapDiv.data('zoom');
+        //     var pin_type = mapDiv.data('pin-type');
+        //     var marker_pin = mapDiv.data('marker-pin');
+        //     var marker_pin_retina = mapDiv.data('marker-pin-retina');
+        //     var _lat   = mapDiv.data('lat');
+        //     var _long  = mapDiv.data('long');
+        //     var element     = 'homey-single-map';
+        //     var defaultZoom = zoomlevel;
+        //     var markerDragable = false;
+        //     if(pin_type == 'marker') {
+        //         var showCircle = false;
+        //     } else {
+        //         var showCircle = true;
+        //     }
+        //     homeySimpleMap(_lat, _long, element, markerDragable, showCircle, defaultZoom, marker_pin, marker_pin_retina);
+        // }
+
         if($('#homey-single-map').length > 0 ) {
             var mapDiv = $('#homey-single-map');
             var zoomlevel = mapDiv.data('zoom');
@@ -810,12 +829,29 @@
             var element     = 'homey-single-map';
             var defaultZoom = zoomlevel;
             var markerDragable = false;
-            if(pin_type == 'marker') {
-                var showCircle = false;
-            } else {
-                var showCircle = true;
-            }
-            homeySimpleMap(_lat, _long, element, markerDragable, showCircle, defaultZoom, marker_pin, marker_pin_retina);
+            
+
+            var map = new longdo.Map({
+                placeholder: document.getElementById('homey-single-map'),
+                lastView: false 
+            });
+            map.zoom(defaultZoom,true); 
+
+            map.location({ lon:_long, lat:_lat }, true);
+            var marker_detail = new longdo.Marker({ lon:_long, lat:_lat },
+            {
+                title: 'Marker',
+                icon: {
+                url: 'https://map.longdo.com/mmmap/images/pin_mark.png',
+                offset: { x: 12, y: 45 }
+                },
+                detail: 'Drag me',
+                visibleRange: { min: 0, max: 100 },
+                draggable: false,
+                weight: longdo.OverlayWeight.Top,
+            });    
+            map.Overlays.add(marker_detail);
+
         }
 
         // Single listing map
@@ -1026,208 +1062,428 @@
         /*--------------------------------------------------------------------------
         * Add/Edit listing for autocomplete
         *---------------------------------------------------------------------------*/
-        var homey_osm_marker_position = function(lat, long) {
-            var mapCenter       = L.latLng( lat, long );
-            var markerCenter    = L.latLng(mapCenter);
-            homeyMap.removeLayer( mapMarker );
+        // var homey_osm_marker_position = function(lat, long) {
+        //     var mapCenter       = L.latLng( lat, long );
+        //     var markerCenter    = L.latLng(mapCenter);
+        //     homeyMap.removeLayer( mapMarker );
 
-            // Marker
-            var osmMarkerOptions = {
-                riseOnHover: true,
-                draggable: true
-            };
-            mapMarker = L.marker( mapCenter, osmMarkerOptions ).addTo( homeyMap );
-        }
+        //     // Marker
+        //     var osmMarkerOptions = {
+        //         riseOnHover: true,
+        //         draggable: true
+        //     };
+        //     mapMarker = L.marker( mapCenter, osmMarkerOptions ).addTo( homeyMap );
+        // }
 
-        var homey_init_submit_map = function() {
+        // var homey_init_submit_map = function() {
 
-            if( jQuery('#map').length === 0 ) {
-                return;
-            }
+        //     if( jQuery('#map').length === 0 ) {
+        //         return;
+        //     }
 
+
+        //     var mapDiv = $('#map');
+        //     var maplat = mapDiv.data('add-lat');
+        //     var maplong = mapDiv.data('add-long');
+
+        //     if(maplat ==='' || typeof  maplat === 'undefined') {
+        //         maplat = 25.686540;
+        //     }
+
+        //     if(maplong ==='' || typeof  maplong === 'undefined') {
+        //         maplong = -80.431345;
+        //     }
+
+        //     maplat = parseFloat(maplat);
+        //     maplong = parseFloat(maplong);
+
+        //     var mapCenter = L.latLng( maplat, maplong );
+        //     homeyMap =  L.map( 'map',{
+        //         center: mapCenter,
+        //         zoom: 15,
+        //     });
+
+        //     homeyMap.scrollWheelZoom.disable();
+
+        //     var tileLayer =  homeyMapTileLayer();
+        //     homeyMap.addLayer( tileLayer );
+
+        //     // Marker
+        //     var osmMarkerOptions = {
+        //         riseOnHover: true,
+        //         draggable: true
+        //     };
+        //     mapMarker = L.marker( mapCenter, osmMarkerOptions ).addTo( homeyMap );
+
+        //     mapMarker.on('drag', function(e){
+        //         document.getElementById('lat').value = mapMarker.getLatLng().lat;
+        //         document.getElementById('lng').value = mapMarker.getLatLng().lng;
+        //     });
+
+        //     homeyMap.invalidateSize();
+        // } // End homey_init_submit_map
+        // homey_init_submit_map();
+
+        // var homey_osm_marker_position = function(lat, long) {
+        //     var latLng = L.latLng( lat, long );
+        //     mapMarker.setLatLng( latLng );
+
+        //     homeyMap.invalidateSize();
+        //     homeyMap.panTo(new L.LatLng(lat,long));
+
+        //     document.getElementById('lat').value = lat;
+        //     document.getElementById('lng').value = long;
+        // }
+
+        // var homey_submit_autocomplete = function() {
+
+        //     jQuery('#listing_address').autocomplete( {
+        //         source: function ( request, response ) {
+        //             jQuery.get( 'https://nominatim.openstreetmap.org/search', {
+        //                 format: 'json',
+        //                 q: request.term,
+        //                 addressdetails:'1',
+        //             }, function( result ) {
+        //                 if ( !result.length ) {
+        //                     response( [ {
+        //                         value: '',
+        //                         label: 'there are no results'
+        //                     } ] );
+        //                     return;
+        //                 }
+        //                 response( result.map( function ( item ) {
+        //                     var return_obj= {
+        //                         label: item.display_name,
+        //                         latitude: item.lat,
+        //                         longitude: item.lon,
+        //                         value: item.display_name,
+        //                     };
+
+
+        //                     if(typeof(item.address) != 'undefined') {
+        //                         return_obj.county = item.address.county;
+        //                     }
+
+        //                     if(typeof(item.address) != 'undefined') {
+        //                         return_obj.city = item.address.city;
+        //                     }
+
+        //                     if(typeof(item.address) != 'undefined') {
+        //                         return_obj.state=item.address.state;
+        //                     }
+
+        //                     if(typeof(item.address) != 'undefined') {
+        //                         return_obj.country=item.address.country;
+        //                     }
+
+        //                     if(typeof(item.address) != 'undefined') {
+        //                         return_obj.zip=item.address.postcode;
+        //                     }
+
+        //                     if(typeof(item.address) != 'undefined') {
+        //                         return_obj.country_short=item.address.country_code;
+        //                     }
+
+        //                     return return_obj
+        //                 }));
+        //             }, 'json' );
+        //         },
+        //         select: function ( event, ui ) {
+
+        //             var property_lat     =   ui.item.latitude;
+        //             var property_long    =   ui.item.longitude;
+
+        //             $('#zip').val( ui.item.zip );
+        //             $('#countyState').val( ui.item.county);
+        //             $('#city').val( ui.item.city);
+        //             $('#homey_country').val( ui.item.country);
+        //             $('input[name="country_short"]').val( ui.item.country_short);
+        //             homey_osm_marker_position(property_lat, property_long);
+        //             $('#city, #countyState, #area, #homey_country').selectpicker('refresh');
+        //         }
+        //     } );
+
+        // } // end homey_submit_autocomplete
+        // homey_submit_autocomplete();
+
+        // var homey_infobox_trigger = function() {
+        //     $('.infobox_trigger').each(function(i) {
+        //         $(this).on('mouseenter', function() {
+        //             markers[i].fire('click');
+        //         });
+
+        //         $(this).on('mouseleave', function() {
+        //             //homeyMap.removeLayer(markers[i]);
+        //         });
+        //     });
+        //     return false;
+        // }
+
+        // var homey_find_address_osm = function() {
+        //     $('#find').on('click', function(e) {
+        //         e.preventDefault();
+        //         var address = $('input[name="listing_address"]').val().replace( /\n/g, ',' ).replace( /,,/g, ',' );
+
+        //         if(!address) {
+        //             return;
+        //         }
+
+        //         $.get( 'https://nominatim.openstreetmap.org/search', {
+        //             format: 'json',
+        //             q: address,
+        //             limit: 1,
+        //         }, function( result ) {
+        //             if ( result.length !== 1 ) {
+        //                 return;
+        //             }
+        //             homey_osm_marker_position(result[0].lat, result[0].lon);
+
+        //         }, 'json' );
+
+        //     })
+        // }
+
+        // homey_find_address_osm();
+
+        // $(".homey_find_address_osm").click(function (){
+        //     var address = $('input[name="listing_address"]').val().replace( /\n/g, ',' ).replace( /,,/g, ',' );
+
+        //     if(!address) {
+        //         return;
+        //     }
+
+        //     $.get( 'https://nominatim.openstreetmap.org/search', {
+        //         format: 'json',
+        //         q: address,
+        //         limit: 1,
+        //     }, function( result ) {
+        //         if ( result.length !== 1 ) {
+        //             return;
+        //         }
+        //         homey_osm_marker_position(result[0].lat, result[0].lon);
+
+        //     }, 'json' );
+        // });
+
+        if (document.getElementById('listing_address')) {
+            
+            var inputField, defaultBounds, autocomplete;
+            inputField = (document.getElementById('listing_address'));
 
             var mapDiv = $('#map');
             var maplat = mapDiv.data('add-lat');
             var maplong = mapDiv.data('add-long');
 
-            if(maplat ==='' || typeof  maplat === 'undefined') {
-                maplat = 25.686540;
-            }
-
-            if(maplong ==='' || typeof  maplong === 'undefined') {
-                maplong = -80.431345;
-            }
-
-            maplat = parseFloat(maplat);
-            maplong = parseFloat(maplong);
-
-            var mapCenter = L.latLng( maplat, maplong );
-            homeyMap =  L.map( 'map',{
-                center: mapCenter,
-                zoom: 15,
+            var map = new longdo.Map({
+                placeholder: document.getElementById('map'),
+                lastView: false 
             });
+            map.zoom(15); 
+            map.location(longdo.LatLong, { lat: maplat, lng: maplong });
 
-            homeyMap.scrollWheelZoom.disable();
+            var lat_value = document.getElementById( 'lat' );
+            var lng_value = document.getElementById( 'lng' );
 
-            var tileLayer =  homeyMapTileLayer();
-            homeyMap.addLayer( tileLayer );
+            if(lat_value.value !=='' && lng_value.value!=='')
+            {
+                map.location({ lon:lng_value.value, lat:lat_value.value }, true);
+                var marker1 = new longdo.Marker({ lon: lng_value.value, lat: lat_value.value },
+                {
+                    title: 'Marker',
+                    icon: {
+                    url: 'https://map.longdo.com/mmmap/images/pin_mark.png',
+                    offset: { x: 12, y: 45 }
+                    },
+                    detail: 'Drag me',
+                    visibleRange: { min: 0, max: 100 },
+                    draggable: true,
+                    weight: longdo.OverlayWeight.Top,
+                });    
+                map.Overlays.add(marker1);
+            } else {
+                map.location(longdo.LocationMode.Geolocation);
+            }
+            
+            map . Search . placeholder ( document . getElementById ( 'result' ) );
 
-            // Marker
-            var osmMarkerOptions = {
-                riseOnHover: true,
-                draggable: true
-            };
-            mapMarker = L.marker( mapCenter, osmMarkerOptions ).addTo( homeyMap );
-
-            mapMarker.on('drag', function(e){
-                document.getElementById('lat').value = mapMarker.getLatLng().lat;
-                document.getElementById('lng').value = mapMarker.getLatLng().lng;
-            });
-
-            homeyMap.invalidateSize();
-        } // End homey_init_submit_map
-        homey_init_submit_map();
-
-        var homey_osm_marker_position = function(lat, long) {
-            var latLng = L.latLng( lat, long );
-            mapMarker.setLatLng( latLng );
-
-            homeyMap.invalidateSize();
-            homeyMap.panTo(new L.LatLng(lat,long));
-
-            document.getElementById('lat').value = lat;
-            document.getElementById('lng').value = long;
-        }
-
-        var homey_submit_autocomplete = function() {
-
-            jQuery('#listing_address').autocomplete( {
-                source: function ( request, response ) {
-                    jQuery.get( 'https://nominatim.openstreetmap.org/search', {
-                        format: 'json',
-                        q: request.term,
-                        addressdetails:'1',
-                    }, function( result ) {
-                        if ( !result.length ) {
-                            response( [ {
-                                value: '',
-                                label: 'there are no results'
-                            } ] );
-                            return;
-                        }
-                        response( result.map( function ( item ) {
-                            var return_obj= {
-                                label: item.display_name,
-                                latitude: item.lat,
-                                longitude: item.lon,
-                                value: item.display_name,
-                            };
-
-
-                            if(typeof(item.address) != 'undefined') {
-                                return_obj.county = item.address.county;
-                            }
-
-                            if(typeof(item.address) != 'undefined') {
-                                return_obj.city = item.address.city;
-                            }
-
-                            if(typeof(item.address) != 'undefined') {
-                                return_obj.state=item.address.state;
-                            }
-
-                            if(typeof(item.address) != 'undefined') {
-                                return_obj.country=item.address.country;
-                            }
-
-                            if(typeof(item.address) != 'undefined') {
-                                return_obj.zip=item.address.postcode;
-                            }
-
-                            if(typeof(item.address) != 'undefined') {
-                                return_obj.country_short=item.address.country_code;
-                            }
-
-                            return return_obj
-                        }));
-                    }, 'json' );
-                },
-                select: function ( event, ui ) {
-
-                    var property_lat     =   ui.item.latitude;
-                    var property_long    =   ui.item.longitude;
-
-                    $('#zip').val( ui.item.zip );
-                    $('#countyState').val( ui.item.county);
-                    $('#city').val( ui.item.city);
-                    $('#homey_country').val( ui.item.country);
-                    $('input[name="country_short"]').val( ui.item.country_short);
-                    homey_osm_marker_position(property_lat, property_long);
-                    $('#city, #countyState, #area, #homey_country').selectpicker('refresh');
+            inputField . onkeyup = function ( event )
+            { 
+                if (( event || window . event ).key == 13 )
+                {
+                  return ; 
                 }
-            } );
+                jQuery("#result").show();
+                map.Overlays.clear();
+                doSearch (); 
 
-        } // end homey_submit_autocomplete
-        homey_submit_autocomplete();
+            }  
+            map . Search . language ( 'en' );
+            
+            
+            jQuery(document).on('click', '.ldsearch_item', function(){
+                jQuery("#result").hide();
+                var address = jQuery(this).find('.ldsearch_address').text();
+                var code= address.substring(0, 4);
+                if (address.trim() !== "" && code !== "Code") {
+                    inputField.value = address;
 
-        var homey_infobox_trigger = function() {
-            $('.infobox_trigger').each(function(i) {
-                $(this).on('mouseenter', function() {
-                    markers[i].fire('click');
+                    
+                    var parts = address.split(", ");
+
+                    var city = parts[1];
+                    var state = parts[2];
+                    var area = parts.slice(0, -1).join(", ");
+                    var zipCode = parts[parts.length - 1];
+
+                    document . getElementById ( 'city' ).value = city;
+                    document . getElementById ( 'countyState' ).value = state;
+                    document . getElementById ( 'zip' ).value = zipCode;
+                    document . getElementById ( 'area' ).value = area;
+                    document . getElementById ( 'homey_country' ).value = country;
+
+                } else {
+                    var address_name = jQuery(this).text();
+                    address_name = address_name.split("Code: ")[0];
+                    inputField.value = address_name;
+                    
+                    document . getElementById ( 'city' ).value = '';
+                    document . getElementById ( 'countyState' ).value = '';
+                    document . getElementById ( 'zip' ).value = '';
+                    document . getElementById ( 'area' ).value = '';
+                    document . getElementById ( 'homey_country' ).value = '';
+                }
+
+                //when clien parchase API key then hope its work fine
+
+                map . Event . bind( 'location' , function () { 
+                    var location = map . location (); 
+                    document.getElementById('lat').value = location . lat;
+                    document.getElementById('lng').value = location . lon; 
+
+                //     $ . ajax ({  
+                //         url : "https://api.longdo.com/map/services/address?" ,  
+                //         dataType : "json" ,  
+                //         type : "GET" ,  
+                //         contentType : "application/json" ,  
+                //         data : { 
+                //             key : "b6093dfab08e8575f89e7fd73f2e2df2" , 
+                //             lon : location . lon , 
+                //             lat : location . lat }, 
+                //     success : function ( results ) { 
+                //         console . log ( results ); }, 
+                //     error : function ( response ) { 
+                //         console . log ( response ); } });  
+                 
+                });  
+
+            });
+
+            function doSearch () { 
+                map . Search . search ( inputField . value ); 
+                suggest . style . display = 'none' ;
+            }
+
+
+            setInterval(function(){
+                if(jQuery(".ldsearch_empty").length > 0){
+                    jQuery(document).find('.ldsearch_list').css("height", "25%");
+                    jQuery(document).find('.ldsearch_list').css("overflow-y","hidden");
+                }else{
+                    jQuery(document).find('.ldsearch_list').css("height", "150%");
+                    jQuery(document).find('.ldsearch_list').css("overflow-y","scroll");
+                } 
+                
+             }, 200);
+
+            jQuery(document).on('click', function (event) {
+                jQuery("#result").hide();
+            });
+
+
+            map . Event . bind ( 'overlayDrop' , function ( overlay ) {  
+
+                var result = map . location ( longdo . LocationMode . Pointer );
+                document.getElementById('lat').value = result . lat;
+                document.getElementById('lng').value = result . lon; 
+
+            });   
+
+            //this setup is need on live server
+
+            jQuery(document).on('click','#find', function (event) {
+                //rerverseGeocoding(lat_value.value,lng_value.value);
+                map.Overlays.clear();
+                map.location({ lon:lng_value.value, lat:lat_value.value }, true);
+                var marker2 = new longdo.Marker({ lon: lng_value.value, lat: lat_value.value },
+                {
+                    title: 'Marker',
+                    icon: {
+                    url: 'https://map.longdo.com/mmmap/images/pin_mark.png',
+                    offset: { x: 12, y: 45 }
+                    },
+                    detail: 'Drag me',
+                    visibleRange: { min: 0, max: 100 },
+                    draggable: true,
+                    weight: longdo.OverlayWeight.Top,
+                });    
+                
+                map.Overlays.add(marker2);
+            });
+
+            function rerverseGeocoding(lat,lng){ 
+                $.ajax({ 
+                        url:"https://api.longdo.com/map/services/address?", 
+                        dataType:"json", 
+                        type:"GET", 
+                        contentType:"application/json", 
+                        data:{
+                            key:"b6093dfab08e8575f89e7fd73f2e2df2",
+                            lon:lng,
+                            lat:lat
+                        },
+                    success:function(results){
+                        console.log(results);},
+                    error:function(response){
+                        console.log(response);}
                 });
-
-                $(this).on('mouseleave', function() {
-                    //homeyMap.removeLayer(markers[i]);
-                });
-            });
-            return false;
-        }
-
-        var homey_find_address_osm = function() {
-            $('#find').on('click', function(e) {
-                e.preventDefault();
-                var address = $('input[name="listing_address"]').val().replace( /\n/g, ',' ).replace( /,,/g, ',' );
-
-                if(!address) {
-                    return;
-                }
-
-                $.get( 'https://nominatim.openstreetmap.org/search', {
-                    format: 'json',
-                    q: address,
-                    limit: 1,
-                }, function( result ) {
-                    if ( result.length !== 1 ) {
-                        return;
-                    }
-                    homey_osm_marker_position(result[0].lat, result[0].lon);
-
-                }, 'json' );
-
-            })
-        }
-
-        homey_find_address_osm();
-
-        $(".homey_find_address_osm").click(function (){
-            var address = $('input[name="listing_address"]').val().replace( /\n/g, ',' ).replace( /,,/g, ',' );
-
-            if(!address) {
-                return;
             }
+            
+            if (document.getElementById('homey_edit_map')) {
+                var latlng = {lat: parseFloat(maplat), lng: parseFloat(maplong)};
+                
+                var marker = new longdo.Marker({
+                    position: latlng,
+                    map: map,
+                    draggable:true,
+                    
+                });
+                map.Overlays.add(marker);
+                
+                map . Event . bind ( 'location' , function () {
+                     var location = map . location ();
+                     document.getElementById('lat').value = location . lat;
+                     document.getElementById('lng').value = location . lon;
+                    });  
 
-            $.get( 'https://nominatim.openstreetmap.org/search', {
-                format: 'json',
-                q: address,
-                limit: 1,
-            }, function( result ) {
-                if ( result.length !== 1 ) {
-                    return;
-                }
-                homey_osm_marker_position(result[0].lat, result[0].lon);
-
-            }, 'json' );
-        });
+                map.zoom(16);
+            } else {
+                var latlng = {lat: parseFloat(maplat), lng: parseFloat(maplong)};
+                var marker = new longdo.Marker({
+                    position: latlng,
+                    map: map,
+                    draggable:true,
+                    anchorPoint: new longdo.maps.Point(0, -29)
+                });
+                map.Overlays.add(marker);
+                map . Event . bind ( 'location' , function () {
+                    var location = map . location ();
+                    document.getElementById('lat').value = location . lat;
+                    document.getElementById('lng').value = location . lon;
+                   });  
+                map.setZoom(13);
+            }
+            
+        }
 
     }// typeof HOMEY_map_vars
 

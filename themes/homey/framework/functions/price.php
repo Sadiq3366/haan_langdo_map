@@ -43,8 +43,11 @@ if ( ! function_exists( 'homey_get_price' ) ) {
         $night_price = get_post_meta( get_the_ID(), $homey_prefix.'night_price', true );
         $hour_price = get_post_meta( get_the_ID(), $homey_prefix.'hour_price', true );
         $booking_type = get_post_meta( get_the_ID(), $homey_prefix.'booking_type', true ); //per_day, per_hour
+       
+        if( $homey_site_mode == 'per_day_date' ){
+            $price = $day_date_price;
 
-        if($homey_site_mode == 'per_day_date' || $homey_site_mode == 'per_day' || $homey_site_mode == 'per_week' || $homey_site_mode == 'per_month') {
+        } elseif($homey_site_mode == 'per_day_date' || $homey_site_mode == 'per_day' || $homey_site_mode == 'per_week' || $homey_site_mode == 'per_month') {
             $price = $night_price;
 
         } elseif($homey_site_mode == 'per_hour') {

@@ -718,7 +718,7 @@ if( !function_exists('homey_half_map') ) {
         if (!empty($keyword)) {
             $query_args['s'] = $keyword;
         }
-        
+       
         if( !empty( $_POST["optimized_loading"] ) ) {
             $north_east_lat = sanitize_text_field($_POST['north_east_lat']);
             $north_east_lng = sanitize_text_field($_POST['north_east_lng']);
@@ -894,7 +894,7 @@ if( !function_exists('homey_half_map') ) {
                 'compare' => '=',
             );
         }
-//print_r($meta_query);exit;
+ //print_r($meta_query);exit;
         if (!empty($bedrooms)) {
             $bedrooms = sanitize_text_field($bedrooms);
             $meta_query[] = array(
@@ -1024,13 +1024,13 @@ if( !function_exists('homey_half_map') ) {
         }
 
         $query_args = new WP_Query( $query_args );
-
+        
         $listings = array();
 
         ob_start();
 
         $total_listings = $query_args->found_posts;
-
+        
         if($total_listings > 1) {
             $rental_text = $homey_local['rentals_label'];
         }

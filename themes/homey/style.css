@@ -475,4 +475,23 @@ div#homey-halfmap, div#homey_sticky_map, div#banner-map {
     position: absolute;
     right: 0;
 }
+.ldsearch_list{
+  position: absolute;
+  float: left;
+  width: 94%;
+  z-index: 2;
+  border: 1px solid #91cb8d;
+  overflow-y: scroll;
+  height: 150%;
+
+}
+.ldmap_popup_callout{
+  max-width: revert !important;
+}
+#homey-single-map > .ldmap_placeholder {
+  position: absolute !important;
+} 
+/* #homey-halfmap > .ldmap_placeholder {
+  min-height: 450px !important;
+} */
 

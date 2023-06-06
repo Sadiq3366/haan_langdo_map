@@ -88,7 +88,7 @@ $no_login_needed_for_booking = homey_option('no_login_needed_for_booking');
 					<?php get_template_part('single-listing/booking/guests'); ?>
 
 					<?php get_template_part('single-listing/booking/extra-prices'); ?>
-
+							
 					<?php if( $offsite_payment == 0 ) { ?>
 					<div class="search-message">
 						<textarea name="guest_message" class="form-control" rows="3" placeholder="<?php echo esc_html__('Introduce yourself to the host', 'homey'); ?>"></textarea>

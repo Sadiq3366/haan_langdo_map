@@ -85,7 +85,7 @@ $total_fields = $total_fields - 1;
                             <input type="hidden" name="lng" value="<?php echo esc_attr($lng); ?>">
 
                             <button type="reset" class="btn clear-input-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
-
+                            <div id="result_s"></div>
                             <?php } 
                             elseif($location_field == 'keyword') { ?>
 

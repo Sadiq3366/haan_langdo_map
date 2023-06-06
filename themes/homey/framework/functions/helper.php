@@ -60,6 +60,8 @@ if( !function_exists('homey_get_map_system') ) {
             $map_system = 'open_street_map';
         } elseif($homey_map_system == 'google' && homey_option('map_api_key') != "") {
             $map_system = 'google';
+        } elseif($homey_map_system == 'longdo' && homey_option('longdo_map_api_key') != "") {
+            $map_system = 'longdo';
         } else {
             $map_system = 'open_street_map';
         }

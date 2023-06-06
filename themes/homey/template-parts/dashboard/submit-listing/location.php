@@ -26,6 +26,7 @@ if( $geo_country_limit != 0 ) {
                     <div class="form-group">
                         <label for="listing_address"><?php echo esc_html__('District','homey'); //esc_attr(homey_option('ad_address')).homey_req('listing_address'); ?></label>
                         <input type="text" autocomplete="false" data-input-title="<?php echo esc_html__(esc_attr(homey_option('ad_address')), 'homey'); ?>" name="listing_address" <?php homey_required('listing_address'); ?> class="form-control" id="listing_address" placeholder="<?php echo esc_attr(homey_option('ad_address_placeholder')); ?>">
+                        <div id="result"></div>
                     </div>
                 </div>
                 <?php } ?>

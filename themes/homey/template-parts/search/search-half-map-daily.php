@@ -73,7 +73,7 @@ $total_fields = $total_fields - 1;
                             case 'location':
                                 ?>
                                 <div class="<?php echo esc_attr($location_classes); ?>">
-                                    <?php if($location_field == 'geo_location') { ?>
+                                    <?php if($location_field == 'geo_location' || 1==1) { ?>
                                     <label class="animated-label"><?php echo esc_attr(homey_option('srh_whr_to_go')); ?></label>    
                                     <input type="text" name="location_search" autocomplete="off" id="location_search" value="<?php echo esc_attr($location_search); ?>" class="form-control input-search" placeholder="<?php echo esc_attr(homey_option('srh_whr_to_go')); ?>">
                                     <input type="hidden" name="search_city" data-value="<?php echo esc_attr($city); ?>" value="<?php echo esc_attr($city); ?>"> 
@@ -84,7 +84,7 @@ $total_fields = $total_fields - 1;
                                     <input type="hidden" name="lng" value="<?php echo esc_attr($lng); ?>">
 
                                     <button type="reset" class="btn clear-input-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
-
+                                    <div id="result_s"></div>
                                     <?php } elseif($location_field == 'keyword') { ?>
 
                                         <label class="animated-label"><?php echo esc_attr(homey_option('srh_whr_to_go')); ?></label>

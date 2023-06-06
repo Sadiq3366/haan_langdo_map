@@ -7046,6 +7046,7 @@ Redux::setSection( $opt_name, array(
                 'open_street_map' => 'Open Street Map',
                 'mapbox' => 'Map Box',
                 'google' => 'Google',
+                'longdo' => 'longdo',
              ), 
             'default' => 'open_street_map'
         ),
@@ -7058,6 +7059,17 @@ Redux::setSection( $opt_name, array(
             'required'  => array('homey_map_system', '=', 'google'),
             'default'  => ''
         ),
+
+        array(
+            'id'       => 'longdo_map_api_key',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Longdo Maps API KEY', 'homey' ),
+            'desc'     => wp_kses(__( 'Enter your longdo maps api key. You can get it from <a target="_blank" href="https://map.longdo.com/console/">here</a>.', 'homey' ), $allowed_html_array),
+            'subtitle' => '',
+            'required'  => array('homey_map_system', '=', 'longdo'),
+            'default'  => ''
+        ),
+
         array(
             'id'       => 'mapbox_api_key',
             'type'     => 'text',

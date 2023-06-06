@@ -90,7 +90,7 @@ $total_fields = $total_fields - 1;
 
                                 <input type="hidden" name="lat" value="<?php echo esc_attr($lat); ?>">
                                 <input type="hidden" name="lng" value="<?php echo esc_attr($lng); ?>">
-                                
+                                <div id="result_s"></div>
                                 <?php } 
                                 elseif($location_field == 'keyword') { ?>
 
